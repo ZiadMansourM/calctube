@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  calctube:
+    build: .
+    image: ziadmmh/calctube:v0.0.1
+    hostname: calctube
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/calctube.sreboy.com.conf:/etc/nginx/conf.d/default.conf
+      - ./certs:/etc/ssl/certs/sreboy.com
+    ports:
+      - "80:80"
+      - "443:443"

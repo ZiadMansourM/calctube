@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  cheapbot:
+    image: ziadmmh/cheapbot:v0.0.1
+    volumes:
+      - ./volume/certs:/etc/letsencrypt
+      - ./volume/logs:/var/log/letsencrypt
+      - ./volume/namecheap.ini:/root/.secrets/certbot/namecheap.ini
+    command: >
+      certbot certonly
+      --authenticator cheapbot -v
+      --cheapbot-propagation-seconds 600
+      --cheapbot-credentials /root/.secrets/certbot/namecheap.ini
+      --non-interactive --expand
+      --force-renewal
+      --server https://acme-v02.api.letsencrypt.org/directory
+      --agree-tos --email "ziadmansour.4.9.2000@gmail.com"
+      --cert-name sreboy.com
+      -d calc.sreboy.com
