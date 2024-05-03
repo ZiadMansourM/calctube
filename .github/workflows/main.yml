@@ -49,5 +49,5 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64
-          tags: ${{ env.TAGS }},ziadmmh/goviolin:latest
+          tags: ${{ env.TAGS }},ziadmmh/calctube:latest
           push: true
