@@ -1,11 +1,13 @@
+from concurrent.futures import ThreadPoolExecutor
+import re
+import time
+
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from pytube import Playlist, YouTube
-from concurrent.futures import ThreadPoolExecutor
-import re
-import time
+
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -85,14 +87,8 @@ def run(user_input: str):
         "speedTimes": dict(times.items()),
     }
 
-
-# if __name__ == "__main__":
-#     playlist_url = "https://www.youtube.com/playlist?list=PLX1bW_GeBRhDCHijCrMO5F-oHg52rRBpl"
-#     run(playlist_url)
-
 @app.get("/", response_class=HTMLResponse)
 async def read_item(request: Request):
-    print("Here")
     return templates.TemplateResponse("index.html", {"request": request})
 
 class PlaylistUrl(BaseModel):
@@ -100,6 +96,5 @@ class PlaylistUrl(BaseModel):
 
 @app.post("/calculate")
 async def calculate_playlist_duration(playlist_url: PlaylistUrl):
-    print("there")
     response_data = run(playlist_url.playlistUrl)
     return JSONResponse(content=response_data)
